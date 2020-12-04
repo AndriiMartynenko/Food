@@ -297,6 +297,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	//Slider
 	const slides = document.querySelectorAll('.offer__slide'),
+		slider = document.querySelector('.offer__slider'),
 		prev = document.querySelector('.offer__slider-prev'),
 		next = document.querySelector('.offer__slider-next'),
 		totalSlides = document.querySelector('#total'),
@@ -307,19 +308,40 @@ window.addEventListener('DOMContentLoaded', () => {
 	let slideIndex = 1,
 		offset = 0;
 
+	function setCurrentSlide() {
+		currentSlide.textContent = getZero(slideIndex);
+	}
+
 	totalSlides.textContent = getZero(slides.length);
-	currentSlide.textContent = getZero(slideIndex);
-
-
+	setCurrentSlide();
 
 	slidesField.style.width = `${100*slides.length}%`;
 	slidesField.style.display = 'flex';
 	slidesField.style.transition = '0.5s all';
 	slidesWrapper.style.overflow = 'hidden';
-
 	slides.forEach(slide => slide.style.width = widthInner);
+	slider.style.position = 'relative';
 
+	const indicators = document.createElement('ol'),
+		dots = [];
+	indicators.classList.add('carousel-indicators');
+	slider.append(indicators);
 
+	function moveDots() {
+		dots.forEach(dot => dot.style.opacity = 0.5);
+		dots[slideIndex - 1].style.opacity = 1;
+	}
+
+	for (let i = 0; i < slides.length; i++) {
+		const dot = document.createElement('li');
+		dot.setAttribute('data-slide-to', i + 1);
+		dot.classList.add('dot');
+		if (i == 0) {
+			dot.style.opacity = 1;
+		}
+		indicators.append(dot);
+		dots.push(dot);
+	}
 	next.addEventListener('click', () => {
 		if (offset == +widthInner.slice(0, widthInner.length - 2) * (slides.length - 1)) {
 			offset = 0;
@@ -328,13 +350,13 @@ window.addEventListener('DOMContentLoaded', () => {
 		}
 
 		slidesField.style.transform = `translateX(-${offset}px)`;
-
 		if (slideIndex == slides.length) {
 			slideIndex = 1;
 		} else {
 			slideIndex++;
 		}
-		currentSlide.textContent = getZero(slideIndex);
+		setCurrentSlide();
+		moveDots();
 	});
 
 	prev.addEventListener('click', () => {
@@ -350,6 +372,19 @@ window.addEventListener('DOMContentLoaded', () => {
 		} else {
 			slideIndex--;
 		}
-		currentSlide.textContent = getZero(slideIndex);
+		setCurrentSlide();
+		moveDots();
+	});
+
+	dots.forEach(dot => {
+		dot.addEventListener('click', (e) => {
+			const slideTo = e.target.getAttribute('data-slide-to');
+
+			slideIndex = slideTo;
+			offset = +widthInner.slice(0, widthInner.length - 2) * (slideTo - 1);
+			slidesField.style.transform = `translateX(-${offset}px)`;
+			setCurrentSlide();
+			moveDots();
+		});
 	});
 });
