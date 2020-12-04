@@ -300,36 +300,56 @@ window.addEventListener('DOMContentLoaded', () => {
 		prev = document.querySelector('.offer__slider-prev'),
 		next = document.querySelector('.offer__slider-next'),
 		totalSlides = document.querySelector('#total'),
-		currentSlide = document.querySelector('#current');
+		currentSlide = document.querySelector('#current'),
+		slidesWrapper = document.querySelector('.offer__slider-wrapper'),
+		slidesField = document.querySelector('.offer__slider-inner'),
+		widthInner = window.getComputedStyle(slidesWrapper).width;
+	let slideIndex = 1,
+		offset = 0;
 
-	let slideIndex = 1;
 	totalSlides.textContent = getZero(slides.length);
-	showSlides(slideIndex);
+	currentSlide.textContent = getZero(slideIndex);
 
-	function showSlides(index) {
-		if (index > slides.length) {
+
+
+	slidesField.style.width = `${100*slides.length}%`;
+	slidesField.style.display = 'flex';
+	slidesField.style.transition = '0.5s all';
+	slidesWrapper.style.overflow = 'hidden';
+
+	slides.forEach(slide => slide.style.width = widthInner);
+
+
+	next.addEventListener('click', () => {
+		if (offset == +widthInner.slice(0, widthInner.length - 2) * (slides.length - 1)) {
+			offset = 0;
+		} else {
+			offset += +widthInner.slice(0, widthInner.length - 2);
+		}
+
+		slidesField.style.transform = `translateX(-${offset}px)`;
+
+		if (slideIndex == slides.length) {
 			slideIndex = 1;
+		} else {
+			slideIndex++;
 		}
-		if (index < 1) {
-			slideIndex = slides.length;
-		}
-
-		slides.forEach(slide => {
-			slide.style.display = 'none';
-			slide.classList.add('fade');
-		});
-		slides[slideIndex - 1].style.display = 'block';
 		currentSlide.textContent = getZero(slideIndex);
-	}
-
-	function prevSlides(slide) {
-		showSlides(slideIndex += slide);
-	}
+	});
 
 	prev.addEventListener('click', () => {
-		prevSlides(-1);
-	});
-	next.addEventListener('click', () => {
-		prevSlides(1);
+		if (offset == 0) {
+			offset = +widthInner.slice(0, widthInner.length - 2) * (slides.length - 1);
+		} else {
+			offset -= +widthInner.slice(0, widthInner.length - 2);
+		}
+
+		slidesField.style.transform = `translateX(-${offset}px)`;
+		if (slideIndex == 1) {
+			slideIndex = slides.length;
+		} else {
+			slideIndex--;
+		}
+		currentSlide.textContent = getZero(slideIndex);
 	});
 });
