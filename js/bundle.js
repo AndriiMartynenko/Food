@@ -207,7 +207,7 @@ function forms() {
 	const forms = document.querySelectorAll('form');
 
 	const message = {
-		loading: '/img/form/spinner.svg',
+		loading: './img/form/spinner.svg',
 		success: 'Спасибо! Скоро мы с вами свяжемся',
 		failure: 'Что-то пошло не так...'
 	};
