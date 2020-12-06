@@ -1,4 +1,4 @@
-function slider() {
+export default function slider() {
 	//Slider
 	const slides = document.querySelectorAll('.offer__slide'),
 		slider = document.querySelector('.offer__slider'),
@@ -102,4 +102,3 @@ function slider() {
 		});
 	});
 }
-module.exports = slider;

@@ -1,4 +1,4 @@
-function cards() {
+export default function cards() {
 	// используем классы для карточек
 	class MenuCard {
 		constructor(src, alt, title, description, price, parentSelector, ...classes) {
@@ -76,4 +76,3 @@ function cards() {
 		21,
 		'.menu .container').render();
 }
-module.exports = cards;

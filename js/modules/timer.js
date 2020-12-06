@@ -1,4 +1,5 @@
-function timer() { // Timer 
+export default function timer() {
+	// Timer 
 	const deadline = '2020-12-16';
 
 	const getTimeRemaining = endtime => {
@@ -51,4 +52,3 @@ function timer() { // Timer
 	}
 	setClock('.timer', deadline);
 }
-module.exports = timer;
