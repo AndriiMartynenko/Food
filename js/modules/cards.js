@@ -1,3 +1,7 @@
+import {
+	getResourse
+} from '../services/services';
+
 export default function cards() {
 	// используем классы для карточек
 	class MenuCard {
@@ -43,7 +47,7 @@ export default function cards() {
 		}
 	}
 
-	// axios.get('http://localhost:3000/menu').
+	// getResourse.get('http://localhost:3000/menu').
 	// then(data => {
 	// 	data.data.forEach(({
 	// 		img,

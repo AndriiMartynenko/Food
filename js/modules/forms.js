@@ -2,6 +2,11 @@ import {
 	openModal,
 	closeModal
 } from './modal';
+import {
+	postData
+} from '../services/services';
+
+
 export default function forms(formsSelector, modalTimerId) {
 	// Forms
 	const forms = document.querySelectorAll(formsSelector);
@@ -15,18 +20,6 @@ export default function forms(formsSelector, modalTimerId) {
 	forms.forEach(form => {
 		bindPostData(form);
 	});
-
-	const postData = async (url, data) => {
-		let res = await fetch(url, {
-			method: "POST",
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: data
-		});
-
-		return await res.json();
-	};
 
 	const showThanksModal = (message) => {
 		const prevModalDialog = document.querySelector('.modal__dialog');
